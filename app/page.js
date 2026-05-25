@@ -939,7 +939,7 @@ const SEL = {
   appearance: "none", WebkitAppearance: "none",
 };
 const LBL = {
-  display: "block", fontSize: "10px", letterSpacing: "0.25em",
+  display: "block", fontSize: "12px", letterSpacing: "0.25em",
   color: "#00B4FF", marginBottom: "8px", fontFamily: FONT, fontWeight: "700",
 };
 const CARD = {
@@ -1073,7 +1073,7 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
     const validFields = sec.fields.filter(f => data[f.key] !== null && data[f.key] !== undefined && data[f.key] !== "");
     return (
       <div style={{ border: "1px solid #152840", background: "#080F1E", animation: "fadeIn 0.15s ease", marginBottom: "20px" }}>
-        <div style={{ padding: "12px 16px", borderBottom: "1px solid #0E1E32", fontSize: "10px", letterSpacing: "0.2em", color: "#00B4FF", fontWeight: "700", display: "flex", alignItems: "center", gap: "8px" }}>
+        <div style={{ padding: "12px 16px", borderBottom: "1px solid #0E1E32", fontSize: "12px", letterSpacing: "0.2em", color: "#00B4FF", fontWeight: "700", display: "flex", alignItems: "center", gap: "8px" }}>
           <span>{sec.icon}</span> {sec.label.toUpperCase()}
         </div>
         <div>
@@ -1088,7 +1088,7 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
                 padding: "10px 16px", borderBottom: "1px solid #0C1828",
                 background: i % 2 === 0 ? "transparent" : "rgba(5,11,18,0.6)", gap: "16px",
               }}>
-                <span style={{ fontSize: "11px", color: isNote ? "#FFD200" : "#486882", flexShrink: 0, paddingTop: isNote ? "2px" : 0 }}>{field.label}</span>
+                <span style={{ fontSize: "13px", color: isNote ? "#FFD200" : "#486882", flexShrink: 0, paddingTop: isNote ? "2px" : 0 }}>{field.label}</span>
                 <span style={{
                   fontSize: isText ? "12px" : "15px",
                   fontWeight: isText ? "400" : "700",
@@ -1108,11 +1108,11 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
 
   const StatBar = ({ label, value, max = 10 }) => (
     <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
-      <span style={{ fontSize: "9px", color: "#486882", letterSpacing: "0.1em", width: "70px", flexShrink: 0 }}>{label}</span>
+      <span style={{ fontSize: "13px", color: "#486882", letterSpacing: "0.1em", width: "70px", flexShrink: 0 }}>{label}</span>
       <div style={{ flex: 1, height: "4px", background: "#0E1E32", borderRadius: "1px", overflow: "hidden" }}>
         <div style={{ height: "100%", width: `${(value / max) * 100}%`, background: "linear-gradient(90deg,#00B4FF,#5BD1FF)" }} />
       </div>
-      <span style={{ fontSize: "10px", color: "#C8DCF0", width: "26px", textAlign: "right", fontWeight: "700" }}>{value.toFixed(1)}</span>
+      <span style={{ fontSize: "12px", color: "#C8DCF0", width: "26px", textAlign: "right", fontWeight: "700" }}>{value.toFixed(1)}</span>
     </div>
   );
 
@@ -1120,8 +1120,8 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
     const meta = CLASSES.find(c => c.id === cls) || CLASSES[0];
     return (
       <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", padding: "4px 10px", border: `1px solid ${meta.color}66`, background: `${meta.color}11`, borderRadius: "2px" }}>
-        <span style={{ fontSize: "11px", fontWeight: "700", color: meta.color, letterSpacing: "0.1em" }}>{cls}</span>
-        <span style={{ fontSize: "13px", fontWeight: "700", color: "#E8F2FF" }}>{pi}</span>
+        <span style={{ fontSize: "13px", fontWeight: "700", color: meta.color, letterSpacing: "0.1em" }}>{cls}</span>
+        <span style={{ fontSize: "15px", fontWeight: "700", color: "#E8F2FF" }}>{pi}</span>
       </div>
     );
   };
@@ -1163,12 +1163,12 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
       <div style={{ background: "linear-gradient(135deg,#04091A 0%,#071228 60%,#0A0E24 100%)", borderBottom: "2px solid #00B4FF", padding: isMobile ? "12px 14px" : "16px 32px", display: "flex", alignItems: "center", gap: isMobile ? "10px" : "16px" }}>
         <div style={{ width: "40px", height: "40px", background: "linear-gradient(135deg,#00B4FF22,#00B4FF44)", border: "1px solid #00B4FF55", borderRadius: "2px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "20px" }}>🏎</div>
         <div>
-          <div style={{ fontSize: "11px", letterSpacing: "0.4em", color: "#00B4FF", fontWeight: "700", lineHeight: 1 }}>FORZA HORIZON 6</div>
+          <div style={{ fontSize: "13px", letterSpacing: "0.4em", color: "#00B4FF", fontWeight: "700", lineHeight: 1 }}>FORZA HORIZON 6</div>
           <div style={{ fontSize: "18px", fontWeight: "700", color: "#E8F2FF", letterSpacing: "0.08em", marginTop: "2px" }}>BUILD & TUNING AGENT</div>
         </div>
         <div style={{ marginLeft: "auto", textAlign: "right" }}>
-          <div style={{ fontSize: "10px", color: "#486882", letterSpacing: "0.1em" }}>{Object.keys(FH6_CARS).length} MAKES</div>
-          <div style={{ fontSize: "10px", color: "#486882", letterSpacing: "0.1em" }}>{Object.values(FH6_CARS).reduce((a, b) => a + b.length, 0)} MODELS</div>
+          <div style={{ fontSize: "12px", color: "#486882", letterSpacing: "0.1em" }}>{Object.keys(FH6_CARS).length} MAKES</div>
+          <div style={{ fontSize: "12px", color: "#486882", letterSpacing: "0.1em" }}>{Object.values(FH6_CARS).reduce((a, b) => a + b.length, 0)} MODELS</div>
         </div>
       </div>
 
@@ -1180,17 +1180,17 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
             <div style={LBL}>SELECT YOUR CAR</div>
             <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1.6fr", gap: isMobile ? "10px" : "16px" }}>
               <div>
-                <div style={{ fontSize: "11px", color: "#486882", marginBottom: "6px", letterSpacing: "0.1em" }}>Brand</div>
+                <div style={{ fontSize: "13px", color: "#486882", marginBottom: "6px", letterSpacing: "0.1em" }}>Brand</div>
                 <div style={{ position: "relative" }}>
                   <select value={make} onChange={handleMakeChange} style={SEL}>
                     <option value="">— Select Brand —</option>
                     {MAKES.map(m => <option key={m} value={m}>{m}</option>)}
                   </select>
-                  <span style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", color: "#00B4FF", pointerEvents: "none", fontSize: "11px" }}>▼</span>
+                  <span style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", color: "#00B4FF", pointerEvents: "none", fontSize: "13px" }}>▼</span>
                 </div>
               </div>
               <div>
-                <div style={{ fontSize: "11px", color: make ? "#486882" : "#1E3452", marginBottom: "6px", letterSpacing: "0.1em" }}>
+                <div style={{ fontSize: "13px", color: make ? "#486882" : "#1E3452", marginBottom: "6px", letterSpacing: "0.1em" }}>
                   Model {make && <span style={{ color: "#1E3452" }}>({models.length})</span>}
                 </div>
                 <div style={{ position: "relative" }}>
@@ -1202,7 +1202,7 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
                       </option>
                     ))}
                   </select>
-                  <span style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", color: make ? "#00B4FF" : "#1E3452", pointerEvents: "none", fontSize: "11px" }}>▼</span>
+                  <span style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", color: make ? "#00B4FF" : "#1E3452", pointerEvents: "none", fontSize: "13px" }}>▼</span>
                 </div>
               </div>
             </div>
@@ -1211,7 +1211,7 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
             {selectedCar && (
               <div style={{ marginTop: "16px", padding: "14px 16px", background: "#050B16", border: "1px solid #0E1E32", borderLeft: "3px solid #00B4FF", animation: "fadeIn 0.2s ease" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
-                  <div style={{ fontSize: "10px", color: "#486882", letterSpacing: "0.2em" }}>STOCK SPEC</div>
+                  <div style={{ fontSize: "12px", color: "#486882", letterSpacing: "0.2em" }}>STOCK SPEC</div>
                   <ClassBadge cls={selectedCar.c} pi={selectedCar.pi} />
                 </div>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: isMobile ? "4px 12px" : "6px 24px" }}>
@@ -1222,7 +1222,7 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
                   <StatBar label="BRAKING" value={selectedCar.br} />
                   <StatBar label="OFFROAD" value={selectedCar.of} />
                 </div>
-                <div style={{ display: "flex", gap: "10px", marginTop: "10px", fontSize: "10px", color: "#486882", letterSpacing: "0.05em" }}>
+                <div style={{ display: "flex", gap: "10px", marginTop: "10px", fontSize: "12px", color: "#486882", letterSpacing: "0.05em" }}>
                   <span>{selectedCar.co}</span>
                   <span style={{ color: "#FF5E8C" }}>{selectedCar.r}</span>
                   <span>{selectedCar.v.toLocaleString()} CR</span>
@@ -1250,14 +1250,14 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
                     position: "relative",
                   }}>
                     <div style={{ fontSize: "16px", fontWeight: "700", letterSpacing: "0.05em" }}>{c.label}</div>
-                    <div style={{ fontSize: "9px", marginTop: "2px", opacity: 0.8 }}>{c.range}</div>
-                    {isStock && !active && <div style={{ position: "absolute", top: "3px", right: "4px", fontSize: "8px", color: "#FFD200", letterSpacing: "0.05em" }}>STOCK</div>}
+                    <div style={{ fontSize: "13px", marginTop: "2px", opacity: 0.8 }}>{c.range}</div>
+                    {isStock && !active && <div style={{ position: "absolute", top: "3px", right: "4px", fontSize: "12px", color: "#FFD200", letterSpacing: "0.05em" }}>STOCK</div>}
                   </button>
                 );
               })}
             </div>
             {selectedCar && targetClass && (
-              <div style={{ marginTop: "10px", fontSize: "11px", color: "#7AAAC8", lineHeight: 1.5 }}>
+              <div style={{ marginTop: "10px", fontSize: "13px", color: "#7AAAC8", lineHeight: 1.5 }}>
                 {(() => {
                   const gap = CLASS_PI_TOP[targetClass] - selectedCar.pi;
                   if (gap > 200) return `Big upgrade. ~+${gap} PI needed. Expect heavy engine + forced induction work.`;
@@ -1282,8 +1282,8 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
                   cursor: "pointer", textAlign: "center", transition: "all 0.12s", borderRadius: "2px",
                 }}>
                   <div style={{ fontSize: "20px", marginBottom: "6px" }}>{s.icon}</div>
-                  <div style={{ fontSize: "11px", fontWeight: "700", color: style === s.id ? "#E8F2FF" : "#7AAAC8", letterSpacing: "0.04em", lineHeight: 1.2 }}>{s.label}</div>
-                  <div style={{ fontSize: "10px", color: style === s.id ? "#486882" : "#1E3452", marginTop: "4px", lineHeight: 1.3 }}>{s.desc}</div>
+                  <div style={{ fontSize: "13px", fontWeight: "700", color: style === s.id ? "#E8F2FF" : "#7AAAC8", letterSpacing: "0.04em", lineHeight: 1.2 }}>{s.label}</div>
+                  <div style={{ fontSize: "12px", color: style === s.id ? "#486882" : "#1E3452", marginTop: "4px", lineHeight: 1.3 }}>{s.desc}</div>
                   {style === s.id && <div style={{ width: "100%", height: "2px", background: "#00B4FF", marginTop: "8px", borderRadius: "1px" }} />}
                 </button>
               ))}
@@ -1298,7 +1298,7 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
                   <select value={track} onChange={e => setTrack(e.target.value)} style={SEL}>
                     {TRACK_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
                   </select>
-                  <span style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", color: "#00B4FF", pointerEvents: "none", fontSize: "11px" }}>▼</span>
+                  <span style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", color: "#00B4FF", pointerEvents: "none", fontSize: "13px" }}>▼</span>
                 </div>
               </div>
               <div>
@@ -1310,7 +1310,7 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
                       background: drivetrain === d ? "#00B4FF" : "transparent",
                       border: drivetrain === d ? "1px solid #00B4FF" : "1px solid #152840",
                       color: drivetrain === d ? "#050B16" : "#7AAAC8",
-                      fontFamily: FONT, fontSize: "13px", letterSpacing: "0.12em",
+                      fontFamily: FONT, fontSize: "15px", letterSpacing: "0.12em",
                       cursor: "pointer", fontWeight: "700", transition: "all 0.12s", borderRadius: "2px",
                     }}>{d}</button>
                   ))}
@@ -1356,7 +1356,7 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
             )}
           </button>
 
-          {error && <div style={{ padding: "12px 16px", border: "1px solid #3A1A2E", borderLeft: "3px solid #FF5E8C", fontSize: "12px", color: "#FF5E8C", background: "#0D0814" }}>{error}</div>}
+          {error && <div style={{ padding: "12px 16px", border: "1px solid #3A1A2E", borderLeft: "3px solid #FF5E8C", fontSize: "14px", color: "#FF5E8C", background: "#0D0814" }}>{error}</div>}
         </div>
 
       ) : (
@@ -1366,23 +1366,23 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
           <div style={{ padding: isMobile ? "14px 12px" : "20px", borderRight: isMobile ? "none" : "1px solid #0E1E32", borderBottom: isMobile ? "1px solid #0E1E32" : "none", background: "#080F1E", display: "flex", flexDirection: "column", gap: isMobile ? "10px" : "12px", position: isMobile ? "static" : "sticky", top: 0, maxHeight: isMobile ? "none" : "calc(100vh - 74px)", alignSelf: "start", overflowY: isMobile ? "visible" : "auto" }}>
 
             <div style={{ padding: "14px", background: "#050B16", border: "1px solid #0E1E32", borderLeft: "3px solid #FF5E8C" }}>
-              <div style={{ fontSize: "11px", color: "#486882", letterSpacing: "0.1em", marginBottom: "4px" }}>VEHICLE</div>
+              <div style={{ fontSize: "13px", color: "#486882", letterSpacing: "0.1em", marginBottom: "4px" }}>VEHICLE</div>
               <div style={{ fontSize: "15px", fontWeight: "700", color: "#E8F2FF", lineHeight: 1.2 }}>{make}</div>
-              <div style={{ fontSize: "13px", color: "#7AAAC8", marginTop: "2px" }}>{selectedCar?.y} {selectedCar?.m}</div>
+              <div style={{ fontSize: "15px", color: "#7AAAC8", marginTop: "2px" }}>{selectedCar?.y} {selectedCar?.m}</div>
             </div>
 
             {/* PI tracker */}
             {selectedCar && (
               <div style={{ padding: "12px 14px", background: "#050B16", border: "1px solid #0E1E32" }}>
-                <div style={{ fontSize: "9px", color: "#486882", letterSpacing: "0.15em", marginBottom: "8px" }}>PI TRAJECTORY</div>
+                <div style={{ fontSize: "13px", color: "#486882", letterSpacing: "0.15em", marginBottom: "8px" }}>PI TRAJECTORY</div>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "6px" }}>
                   <div style={{ textAlign: "center", flex: 1 }}>
-                    <div style={{ fontSize: "9px", color: "#486882" }}>STOCK</div>
+                    <div style={{ fontSize: "13px", color: "#486882" }}>STOCK</div>
                     <div style={{ marginTop: "2px" }}><ClassBadge cls={selectedCar.c} pi={selectedCar.pi} /></div>
                   </div>
                   <div style={{ color: "#00B4FF", fontSize: "14px" }}>→</div>
                   <div style={{ textAlign: "center", flex: 1 }}>
-                    <div style={{ fontSize: "9px", color: "#486882" }}>TARGET</div>
+                    <div style={{ fontSize: "13px", color: "#486882" }}>TARGET</div>
                     <div style={{ marginTop: "2px" }}><ClassBadge cls={targetClass} pi={build.estimated_pi || CLASS_PI_TOP[targetClass] - 3} /></div>
                   </div>
                 </div>
@@ -1392,26 +1392,26 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
             <div style={{ padding: "12px 14px", background: "#050B16", border: "1px solid #0E1E32" }}>
               {[["DRIVETRAIN", drivetrain], ["STYLE", selectedStyle?.label], ["TRACK", track]].map(([k, v]) => (
                 <div key={k} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "5px 0", borderBottom: "1px solid #0E1E32" }}>
-                  <span style={{ fontSize: "9px", color: "#486882", letterSpacing: "0.15em" }}>{k}</span>
-                  <span style={{ fontSize: "12px", fontWeight: "600", color: "#C8DCF0" }}>{v}</span>
+                  <span style={{ fontSize: "13px", color: "#486882", letterSpacing: "0.15em" }}>{k}</span>
+                  <span style={{ fontSize: "14px", fontWeight: "600", color: "#C8DCF0" }}>{v}</span>
                 </div>
               ))}
             </div>
 
             {build.engine_swap_note && (
-              <div style={{ padding: "12px 14px", background: "#071220", border: "1px solid #1A2A1A", borderLeft: "3px solid #FFD200", fontSize: "11px", color: "#88A8C0", lineHeight: 1.6 }}>
-                <div style={{ fontSize: "9px", color: "#FFD200", fontWeight: "700", letterSpacing: "0.15em", marginBottom: "6px" }}>⚡ ENGINE SWAP</div>
+              <div style={{ padding: "12px 14px", background: "#071220", border: "1px solid #1A2A1A", borderLeft: "3px solid #FFD200", fontSize: "13px", color: "#88A8C0", lineHeight: 1.6 }}>
+                <div style={{ fontSize: "13px", color: "#FFD200", fontWeight: "700", letterSpacing: "0.15em", marginBottom: "6px" }}>⚡ ENGINE SWAP</div>
                 {build.engine_swap_note}
               </div>
             )}
 
-            <div style={{ padding: "12px 14px", background: "#050B16", border: "1px solid #0E1E32", fontSize: "11px", color: "#7AAAC8", lineHeight: 1.7, fontStyle: "italic", flexGrow: 1 }}>
+            <div style={{ padding: "12px 14px", background: "#050B16", border: "1px solid #0E1E32", fontSize: "13px", color: "#7AAAC8", lineHeight: 1.7, fontStyle: "italic", flexGrow: 1 }}>
               {build.summary}
             </div>
 
             <button onClick={() => { setBuild(null); setActiveUpgrade(null); setActiveTune(null); }} style={{
               padding: "10px", background: "transparent", border: "1px solid #152840",
-              color: "#486882", fontFamily: FONT, fontSize: "11px",
+              color: "#486882", fontFamily: FONT, fontSize: "13px",
               letterSpacing: "0.2em", cursor: "pointer", transition: "all 0.12s",
             }}>← NEW BUILD</button>
           </div>
@@ -1429,7 +1429,7 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
                   border: "none",
                   borderBottom: view === t.id ? "2px solid #00B4FF" : "2px solid transparent",
                   color: view === t.id ? "#050B16" : "#486882",
-                  fontFamily: FONT, fontSize: isMobile ? "10px" : "12px", fontWeight: "700",
+                  fontFamily: FONT, fontSize: isMobile ? "10px" : "14px", fontWeight: "700",
                   letterSpacing: isMobile ? "0.05em" : "0.12em", cursor: "pointer", transition: "all 0.12s",
                   display: "flex", alignItems: "center", gap: isMobile ? "5px" : "8px",
                   flex: isMobile ? "1" : "0 0 auto",
@@ -1451,7 +1451,7 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
                       background: activeUpgrade === sec.key ? "#00B4FF" : "#080F1E",
                       border: activeUpgrade === sec.key ? "1px solid #00B4FF" : "1px solid #152840",
                       color: activeUpgrade === sec.key ? "#050B16" : "#486882",
-                      fontFamily: FONT, fontSize: "10px", letterSpacing: "0.08em",
+                      fontFamily: FONT, fontSize: "12px", letterSpacing: "0.08em",
                       cursor: "pointer", transition: "all 0.1s",
                       textAlign: "center", borderRadius: "2px",
                     }}>
@@ -1473,7 +1473,7 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
                       background: activeTune === sec.key ? "#00B4FF" : "#080F1E",
                       border: activeTune === sec.key ? "1px solid #00B4FF" : "1px solid #152840",
                       color: activeTune === sec.key ? "#050B16" : "#486882",
-                      fontFamily: FONT, fontSize: "10px", letterSpacing: "0.08em",
+                      fontFamily: FONT, fontSize: "12px", letterSpacing: "0.08em",
                       cursor: "pointer", transition: "all 0.1s",
                       textAlign: "center", borderRadius: "2px",
                     }}>
@@ -1484,8 +1484,8 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
                 </div>
                 {activeTune === "gearing" && build.upgrades?.drivetrain?.transmission && (
                   <div style={{ marginBottom: "12px", padding: "10px 14px", background: "#071220", border: "1px solid #1A3050", borderLeft: "3px solid #FFD200", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span style={{ fontSize: "10px", color: "#FFD200", letterSpacing: "0.15em", fontWeight: "700" }}>⚙ TRANSMISSION</span>
-                    <span style={{ fontSize: "13px", color: "#E8F2FF", fontWeight: "700" }}>{build.upgrades.drivetrain.transmission}</span>
+                    <span style={{ fontSize: "12px", color: "#FFD200", letterSpacing: "0.15em", fontWeight: "700" }}>⚙ TRANSMISSION</span>
+                    <span style={{ fontSize: "15px", color: "#E8F2FF", fontWeight: "700" }}>{build.upgrades.drivetrain.transmission}</span>
                   </div>
                 )}
                 {(() => {
@@ -1509,13 +1509,13 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
                   }[activeTune];
                   if (!lockMsg) return null;
                   return (
-                    <div style={{ marginBottom: "12px", padding: "10px 14px", background: "#071220", border: "1px solid #1A3050", borderLeft: "3px solid #FFD200", fontSize: "11px", color: "#88A8C0", lineHeight: 1.5 }}>
+                    <div style={{ marginBottom: "12px", padding: "10px 14px", background: "#071220", border: "1px solid #1A3050", borderLeft: "3px solid #FFD200", fontSize: "13px", color: "#88A8C0", lineHeight: 1.5 }}>
                       <span style={{ color: "#FFD200", fontWeight: "700", letterSpacing: "0.1em" }}>LOCKED:</span> {lockMsg}
                     </div>
                   );
                 })()}
                 {(activeTune === "springs" || activeTune === "aero") && build.tune?.[activeTune] && Object.values(build.tune[activeTune]).some(v => typeof v === "number") && (
-                  <div style={{ marginBottom: "12px", padding: "10px 14px", background: "#071220", border: "1px solid #1A3050", borderLeft: "3px solid #FF5E8C", fontSize: "11px", color: "#88A8C0", lineHeight: 1.5 }}>
+                  <div style={{ marginBottom: "12px", padding: "10px 14px", background: "#071220", border: "1px solid #1A3050", borderLeft: "3px solid #FF5E8C", fontSize: "13px", color: "#88A8C0", lineHeight: 1.5 }}>
                     <span style={{ color: "#FF5E8C", fontWeight: "700", letterSpacing: "0.1em" }}>NOTE:</span> Values are % of your car's slider range, not raw numbers. {activeTune === "springs" ? "Spring rate and ride height bounds differ per car." : "Downforce bounds differ per car."} Open the in-game slider, then set it to the % shown.
                   </div>
                 )}
@@ -1526,12 +1526,12 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
             {/* Driver Notes: on mobile, render inline at the bottom of the content pane */}
             {isMobile && build.tips && (
               <div style={{ marginTop: "20px" }}>
-                <div style={{ fontSize: "10px", letterSpacing: "0.25em", color: "#00B4FF", fontWeight: "700", marginBottom: "10px" }}>DRIVER NOTES</div>
+                <div style={{ fontSize: "12px", letterSpacing: "0.25em", color: "#00B4FF", fontWeight: "700", marginBottom: "10px" }}>DRIVER NOTES</div>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "8px" }}>
                   {build.tips.map((tip, i) => (
                     <div key={i} style={{ display: "flex", gap: "10px", padding: "12px 14px", background: "#080F1E", border: "1px solid #0E1E32", borderLeft: "2px solid #00B4FF33" }}>
-                      <span style={{ color: "#00B4FF", fontSize: "11px", fontWeight: "700", flexShrink: 0, marginTop: "1px" }}>{String(i + 1).padStart(2, "0")}</span>
-                      <span style={{ fontSize: "12px", color: "#6890B0", lineHeight: 1.6 }}>{tip}</span>
+                      <span style={{ color: "#00B4FF", fontSize: "13px", fontWeight: "700", flexShrink: 0, marginTop: "1px" }}>{String(i + 1).padStart(2, "0")}</span>
+                      <span style={{ fontSize: "14px", color: "#6890B0", lineHeight: 1.6 }}>{tip}</span>
                     </div>
                   ))}
                 </div>
@@ -1552,7 +1552,7 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
               alignSelf: "start",
             }}>
               <div style={{
-                fontSize: "10px",
+                fontSize: "12px",
                 letterSpacing: "0.25em",
                 color: "#00B4FF",
                 fontWeight: "700",
@@ -1573,13 +1573,13 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
                   }}>
                     <span style={{
                       color: "#00B4FF",
-                      fontSize: "11px",
+                      fontSize: "13px",
                       fontWeight: "700",
                       flexShrink: 0,
                       marginTop: "1px",
                     }}>{String(i + 1).padStart(2, "0")}</span>
                     <span style={{
-                      fontSize: "12px",
+                      fontSize: "14px",
                       color: "#6890B0",
                       lineHeight: 1.6,
                     }}>{tip}</span>
