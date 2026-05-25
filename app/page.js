@@ -1,6 +1,19 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+
+// Custom hook that returns true if viewport is mobile (< 768px). Re-evaluates on resize.
+// Returns false on the server (SSR) so desktop layout is the default until hydration.
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+  return isMobile;
+}
 
 const FH6_CARS = {
   "AMG Transport Dynamics": [
@@ -935,6 +948,7 @@ const CARD = {
 };
 
 export default function FH6Tuner() {
+  const isMobile = useIsMobile();
   // Initialize pwGate based on whether a password is already stored.
   // Using a function initializer ensures this runs ONCE on mount, not every render.
   const [pwGate, setPwGate] = useState(() => {
@@ -1146,7 +1160,7 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
     <div style={{ minHeight: "100vh", background: "#050B16", color: "#C8DCF0", fontFamily: FONT }}>
 
       {/* Header */}
-      <div style={{ background: "linear-gradient(135deg,#04091A 0%,#071228 60%,#0A0E24 100%)", borderBottom: "2px solid #00B4FF", padding: "16px 32px", display: "flex", alignItems: "center", gap: "16px" }}>
+      <div style={{ background: "linear-gradient(135deg,#04091A 0%,#071228 60%,#0A0E24 100%)", borderBottom: "2px solid #00B4FF", padding: isMobile ? "12px 14px" : "16px 32px", display: "flex", alignItems: "center", gap: isMobile ? "10px" : "16px" }}>
         <div style={{ width: "40px", height: "40px", background: "linear-gradient(135deg,#00B4FF22,#00B4FF44)", border: "1px solid #00B4FF55", borderRadius: "2px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "20px" }}>🏎</div>
         <div>
           <div style={{ fontSize: "11px", letterSpacing: "0.4em", color: "#00B4FF", fontWeight: "700", lineHeight: 1 }}>FORZA HORIZON 6</div>
@@ -1159,12 +1173,12 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
       </div>
 
       {!build ? (
-        <div style={{ maxWidth: "900px", margin: "0 auto", padding: "28px 24px", display: "flex", flexDirection: "column", gap: "16px" }}>
+        <div style={{ maxWidth: "900px", margin: "0 auto", padding: isMobile ? "16px 12px" : "28px 24px", display: "flex", flexDirection: "column", gap: isMobile ? "12px" : "16px" }}>
 
           {/* CAR SELECT */}
           <div style={CARD}>
             <div style={LBL}>SELECT YOUR CAR</div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1.6fr", gap: "16px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1.6fr", gap: isMobile ? "10px" : "16px" }}>
               <div>
                 <div style={{ fontSize: "11px", color: "#486882", marginBottom: "6px", letterSpacing: "0.1em" }}>Brand</div>
                 <div style={{ position: "relative" }}>
@@ -1200,7 +1214,7 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
                   <div style={{ fontSize: "10px", color: "#486882", letterSpacing: "0.2em" }}>STOCK SPEC</div>
                   <ClassBadge cls={selectedCar.c} pi={selectedCar.pi} />
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 24px" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: isMobile ? "4px 12px" : "6px 24px" }}>
                   <StatBar label="SPEED" value={selectedCar.sp} />
                   <StatBar label="HANDLING" value={selectedCar.ha} />
                   <StatBar label="ACCEL" value={selectedCar.ac} />
@@ -1220,7 +1234,7 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
           {/* TARGET CLASS */}
           <div style={CARD}>
             <div style={LBL}>TARGET CLASS</div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", gap: "6px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(4,1fr)" : "repeat(7,1fr)", gap: "6px" }}>
               {CLASSES.map(c => {
                 const active = targetClass === c.id;
                 const isStock = selectedCar && selectedCar.c === c.id;
@@ -1259,7 +1273,7 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
           {/* DRIVING STYLE */}
           <div style={CARD}>
             <div style={LBL}>DRIVING STYLE</div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: "8px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(2,1fr)" : "repeat(5,1fr)", gap: "8px" }}>
               {DRIVING_STYLES.map(s => (
                 <button key={s.id} onClick={() => setStyle(s.id)} style={{
                   padding: "14px 8px",
@@ -1277,7 +1291,7 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
           </div>
 
           <div style={CARD}>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? "12px" : "24px" }}>
               <div>
                 <div style={LBL}>TRACK TYPE</div>
                 <div style={{ position: "relative" }}>
@@ -1324,9 +1338,9 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
 
       ) : (
         /* RESULTS LAYOUT */
-        <div style={{ display: "grid", gridTemplateColumns: "300px 1fr", minHeight: "calc(100vh - 74px)" }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "300px 1fr", minHeight: "calc(100vh - 74px)" }}>
 
-          <div style={{ padding: "20px", borderRight: "1px solid #0E1E32", background: "#080F1E", display: "flex", flexDirection: "column", gap: "12px" }}>
+          <div style={{ padding: isMobile ? "14px 12px" : "20px", borderRight: isMobile ? "none" : "1px solid #0E1E32", borderBottom: isMobile ? "1px solid #0E1E32" : "none", background: "#080F1E", display: "flex", flexDirection: "column", gap: isMobile ? "10px" : "12px" }}>
 
             <div style={{ padding: "14px", background: "#050B16", border: "1px solid #0E1E32", borderLeft: "3px solid #FF5E8C" }}>
               <div style={{ fontSize: "11px", color: "#486882", letterSpacing: "0.1em", marginBottom: "4px" }}>VEHICLE</div>
@@ -1379,7 +1393,7 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
             }}>← NEW BUILD</button>
           </div>
 
-          <div style={{ padding: "24px 28px", overflowY: "auto" }}>
+          <div style={{ padding: isMobile ? "16px 12px" : "24px 28px", overflowY: "auto" }}>
 
             <div style={{ display: "flex", gap: "0", marginBottom: "20px", borderBottom: "1px solid #152840" }}>
               {[
@@ -1387,14 +1401,17 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
                 { id: "tune", label: "TUNING SLIDERS", icon: "⚙" },
               ].map(t => (
                 <button key={t.id} onClick={() => setView(t.id)} style={{
-                  padding: "12px 20px",
+                  padding: isMobile ? "10px 8px" : "12px 20px",
                   background: view === t.id ? "#00B4FF" : "transparent",
                   border: "none",
                   borderBottom: view === t.id ? "2px solid #00B4FF" : "2px solid transparent",
                   color: view === t.id ? "#050B16" : "#486882",
-                  fontFamily: FONT, fontSize: "12px", fontWeight: "700",
-                  letterSpacing: "0.12em", cursor: "pointer", transition: "all 0.12s",
-                  display: "flex", alignItems: "center", gap: "8px",
+                  fontFamily: FONT, fontSize: isMobile ? "10px" : "12px", fontWeight: "700",
+                  letterSpacing: isMobile ? "0.05em" : "0.12em", cursor: "pointer", transition: "all 0.12s",
+                  display: "flex", alignItems: "center", gap: isMobile ? "5px" : "8px",
+                  flex: isMobile ? "1" : "0 0 auto",
+                  justifyContent: "center",
+                  whiteSpace: "nowrap",
                 }}>
                   <span>{t.icon}</span>
                   {t.label}
@@ -1404,7 +1421,7 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
 
             {view === "upgrades" && build.upgrades && (
               <>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: "6px", marginBottom: "20px" }}>
+                <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(3,1fr)" : "repeat(5,1fr)", gap: "6px", marginBottom: "20px" }}>
                   {UPGRADE_SECTIONS.map(sec => (
                     <button key={sec.key} onClick={() => setActiveUpgrade(activeUpgrade === sec.key ? null : sec.key)} style={{
                       padding: "10px 6px",
@@ -1426,7 +1443,7 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
 
             {view === "tune" && build.tune && (
               <>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: "6px", marginBottom: "20px" }}>
+                <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(3,1fr)" : "repeat(5,1fr)", gap: "6px", marginBottom: "20px" }}>
                   {TUNE_SECTIONS.map(sec => (
                     <button key={sec.key} onClick={() => setActiveTune(activeTune === sec.key ? null : sec.key)} style={{
                       padding: "10px 6px",
@@ -1486,7 +1503,7 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
             {build.tips && (
               <div style={{ marginTop: "20px" }}>
                 <div style={{ fontSize: "10px", letterSpacing: "0.25em", color: "#00B4FF", fontWeight: "700", marginBottom: "10px" }}>DRIVER NOTES</div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+                <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: "8px" }}>
                   {build.tips.map((tip, i) => (
                     <div key={i} style={{ display: "flex", gap: "10px", padding: "12px 14px", background: "#080F1E", border: "1px solid #0E1E32", borderLeft: "2px solid #00B4FF33" }}>
                       <span style={{ color: "#00B4FF", fontSize: "11px", fontWeight: "700", flexShrink: 0, marginTop: "1px" }}>{String(i + 1).padStart(2, "0")}</span>
