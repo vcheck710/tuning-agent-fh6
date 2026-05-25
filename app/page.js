@@ -935,6 +935,27 @@ const CARD = {
 };
 
 export default function FH6Tuner() {
+  // Initialize pwGate based on whether a password is already stored.
+  // Using a function initializer ensures this runs ONCE on mount, not every render.
+  const [pwGate, setPwGate] = useState(() => {
+    if (typeof window === "undefined") return true;
+    const stored = localStorage.getItem("fh6_pw");
+    return !stored;
+  });
+  const [pwInput, setPwInput] = useState("");
+  const [pwError, setPwError] = useState("");
+
+  const submitPassword = () => {
+    const trimmed = pwInput.trim();
+    if (!trimmed) {
+      setPwError("Enter a password");
+      return;
+    }
+    localStorage.setItem("fh6_pw", trimmed);
+    setPwGate(false);
+    setPwError("");
+  };
+
   const [make, setMake] = useState("");
   const [carKey, setCarKey] = useState(""); // "year|model"
   const [drivetrain, setDrivetrain] = useState("RWD");
@@ -1001,13 +1022,23 @@ BUILD CONTEXT:
 Generate a complete FH6 build hitting the target PI class. Lean on the car's stat strengths and shore up weaknesses. Tune for the chosen driving style on the chosen track.`;
 
     try {
+      const storedPw = typeof window !== "undefined" ? (localStorage.getItem("fh6_pw") || "").trim() : "";
       const res = await fetch("/api/generate-build", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "x-app-password": storedPw,
+        },
         body: JSON.stringify({ userPrompt }),
       });
       const data = await res.json();
       if (!res.ok) {
+        if (res.status === 401) {
+          localStorage.removeItem("fh6_pw");
+          setPwGate(true);
+          setError("Password rejected. Please re-enter.");
+          return;
+        }
         setError(data?.error || `Request failed: ${res.status}`);
         return;
       }
@@ -1080,6 +1111,36 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
       </div>
     );
   };
+
+  if (pwGate) {
+    return (
+      <div style={{ minHeight: "100vh", background: "linear-gradient(180deg, #050B16 0%, #080F1E 100%)", color: "#E8F2FF", fontFamily: "'Rajdhani', sans-serif", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+        <div style={{ width: "100%", maxWidth: 420, padding: "32px 28px", background: "#080F1E", border: "1px solid #1A3050", borderTop: "2px solid #00B4FF", borderRadius: 2 }}>
+          <div style={{ fontSize: 11, color: "#00B4FF", letterSpacing: "0.2em", fontWeight: 700, marginBottom: 12 }}>FH6 TUNING AGENT</div>
+          <h1 style={{ fontSize: 24, fontWeight: 700, margin: "0 0 8px 0", color: "#E8F2FF" }}>Friends-Only Access</h1>
+          <p style={{ fontSize: 13, color: "#88A8C0", margin: "0 0 24px 0", lineHeight: 1.5 }}>Enter the password to use the tuning agent. If you don't have one, ask Voycheck.</p>
+          <input
+            type="password"
+            value={pwInput}
+            onChange={(e) => setPwInput(e.target.value)}
+            onKeyDown={(e) => { if (e.key === "Enter") submitPassword(); }}
+            placeholder="Password"
+            autoFocus
+            style={{ width: "100%", padding: "12px 14px", fontSize: 14, background: "#050B16", border: "1px solid #1A3050", color: "#E8F2FF", borderRadius: 2, outline: "none", marginBottom: 12, fontFamily: "inherit" }}
+          />
+          {pwError && (
+            <div style={{ fontSize: 12, color: "#FF5E8C", marginBottom: 12 }}>{pwError}</div>
+          )}
+          <button
+            onClick={submitPassword}
+            style={{ width: "100%", padding: "12px 16px", fontSize: 13, fontWeight: 700, letterSpacing: "0.1em", background: "#00B4FF", color: "#050B16", border: "none", borderRadius: 2, cursor: "pointer", fontFamily: "inherit", textTransform: "uppercase" }}
+          >
+            Continue
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ minHeight: "100vh", background: "#050B16", color: "#C8DCF0", fontFamily: FONT }}>

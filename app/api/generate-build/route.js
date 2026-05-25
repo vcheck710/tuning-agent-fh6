@@ -1,4 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
+import { Redis } from "@upstash/redis";
+import { Ratelimit } from "@upstash/ratelimit";
 
 const SYSTEM_PROMPT = `You are an expert Forza Horizon 6 build engineer. Given a car's stock spec, drivetrain, driving style, track type, AND target performance class, recommend BOTH the upgrades to install AND the tuning slider values to hit that target class.
 
@@ -301,8 +303,56 @@ Schema (use null for fields that don't apply, e.g. rear diff on FWD):
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
+const redis = Redis.fromEnv();
+
+// 10 builds per IP per 24 hours
+const ratelimit = new Ratelimit({
+  redis,
+  limiter: Ratelimit.fixedWindow(10, "1 d"),
+  analytics: true,
+  prefix: "fh6_tuner",
+});
+
+function getIp(request) {
+  const forwarded = request.headers.get("x-forwarded-for");
+  if (forwarded) return forwarded.split(",")[0].trim();
+  const real = request.headers.get("x-real-ip");
+  if (real) return real;
+  return "unknown";
+}
+
 export async function POST(request) {
   try {
+    // Password check
+    const provided = (request.headers.get("x-app-password") || "").trim();
+    const expected = (process.env.APP_PASSWORD || "").trim();
+    if (!expected) {
+      return Response.json(
+        { error: "Server misconfigured: APP_PASSWORD not set" },
+        { status: 500 }
+      );
+    }
+    if (provided !== expected) {
+      return Response.json(
+        { error: "Wrong password" },
+        { status: 401 }
+      );
+    }
+
+    // Rate limit by IP
+    const ip = getIp(request);
+    const { success, limit, remaining, reset } = await ratelimit.limit(ip);
+    if (!success) {
+      const resetIn = Math.ceil((reset - Date.now()) / 1000 / 60);
+      return Response.json(
+        {
+          error: `Rate limit hit. ${limit} builds per day. Resets in ~${resetIn} minutes.`,
+          rateLimit: { limit, remaining, reset },
+        },
+        { status: 429 }
+      );
+    }
+
     const { userPrompt } = await request.json();
     if (!userPrompt || typeof userPrompt !== "string") {
       return Response.json({ error: "Missing userPrompt" }, { status: 400 });
@@ -338,7 +388,7 @@ export async function POST(request) {
       );
     }
 
-    return Response.json({ build });
+    return Response.json({ build, remaining });
   } catch (err) {
     console.error("API route error:", err);
     return Response.json(
