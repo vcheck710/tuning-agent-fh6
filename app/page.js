@@ -1361,9 +1361,9 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
 
       ) : (
         /* RESULTS LAYOUT */
-        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "300px 1fr", minHeight: "calc(100vh - 74px)" }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "300px minmax(560px, 760px) minmax(280px, 360px)", justifyContent: "center", minHeight: "calc(100vh - 74px)" }}>
 
-          <div style={{ padding: isMobile ? "14px 12px" : "20px", borderRight: isMobile ? "none" : "1px solid #0E1E32", borderBottom: isMobile ? "1px solid #0E1E32" : "none", background: "#080F1E", display: "flex", flexDirection: "column", gap: isMobile ? "10px" : "12px" }}>
+          <div style={{ padding: isMobile ? "14px 12px" : "20px", borderRight: isMobile ? "none" : "1px solid #0E1E32", borderBottom: isMobile ? "1px solid #0E1E32" : "none", background: "#080F1E", display: "flex", flexDirection: "column", gap: isMobile ? "10px" : "12px", position: isMobile ? "static" : "sticky", top: 0, maxHeight: isMobile ? "none" : "calc(100vh - 74px)", alignSelf: "start", overflowY: isMobile ? "visible" : "auto" }}>
 
             <div style={{ padding: "14px", background: "#050B16", border: "1px solid #0E1E32", borderLeft: "3px solid #FF5E8C" }}>
               <div style={{ fontSize: "11px", color: "#486882", letterSpacing: "0.1em", marginBottom: "4px" }}>VEHICLE</div>
@@ -1523,10 +1523,11 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
               </>
             )}
 
-            {build.tips && (
+            {/* Driver Notes: on mobile, render inline at the bottom of the content pane */}
+            {isMobile && build.tips && (
               <div style={{ marginTop: "20px" }}>
                 <div style={{ fontSize: "10px", letterSpacing: "0.25em", color: "#00B4FF", fontWeight: "700", marginBottom: "10px" }}>DRIVER NOTES</div>
-                <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: "8px" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "8px" }}>
                   {build.tips.map((tip, i) => (
                     <div key={i} style={{ display: "flex", gap: "10px", padding: "12px 14px", background: "#080F1E", border: "1px solid #0E1E32", borderLeft: "2px solid #00B4FF33" }}>
                       <span style={{ color: "#00B4FF", fontSize: "11px", fontWeight: "700", flexShrink: 0, marginTop: "1px" }}>{String(i + 1).padStart(2, "0")}</span>
@@ -1537,6 +1538,56 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
               </div>
             )}
           </div>
+
+          {/* Desktop-only third column: Driver Notes pinned to the right */}
+          {!isMobile && build.tips && (
+            <div style={{
+              padding: "24px 20px",
+              borderLeft: "1px solid #0E1E32",
+              background: "#06101E",
+              overflowY: "auto",
+              position: "sticky",
+              top: 0,
+              maxHeight: "calc(100vh - 74px)",
+              alignSelf: "start",
+            }}>
+              <div style={{
+                fontSize: "10px",
+                letterSpacing: "0.25em",
+                color: "#00B4FF",
+                fontWeight: "700",
+                marginBottom: "16px",
+                paddingBottom: "10px",
+                borderBottom: "1px solid #152840",
+              }}>📝 DRIVER NOTES</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                {build.tips.map((tip, i) => (
+                  <div key={i} style={{
+                    display: "flex",
+                    gap: "10px",
+                    padding: "12px 14px",
+                    background: "#080F1E",
+                    border: "1px solid #0E1E32",
+                    borderLeft: "2px solid #00B4FF33",
+                    borderRadius: "2px",
+                  }}>
+                    <span style={{
+                      color: "#00B4FF",
+                      fontSize: "11px",
+                      fontWeight: "700",
+                      flexShrink: 0,
+                      marginTop: "1px",
+                    }}>{String(i + 1).padStart(2, "0")}</span>
+                    <span style={{
+                      fontSize: "12px",
+                      color: "#6890B0",
+                      lineHeight: 1.6,
+                    }}>{tip}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
 
