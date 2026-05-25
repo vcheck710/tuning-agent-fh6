@@ -1320,17 +1320,40 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
           </div>
 
           <button onClick={generateBuild} disabled={!canGenerate} style={{
-            padding: "16px",
-            background: canGenerate ? "#00B4FF" : "#0A1220",
+            padding: loading ? "16px 16px 22px 16px" : "16px",
+            background: canGenerate ? "#00B4FF" : (loading ? "#0A1A2A" : "#0A1220"),
             border: "none",
-            color: canGenerate ? "#050B16" : "#152840",
+            color: canGenerate ? "#050B16" : (loading ? "#7AAAC8" : "#152840"),
             fontFamily: FONT, fontSize: "15px", letterSpacing: "0.3em",
-            cursor: canGenerate ? "pointer" : "not-allowed",
-            fontWeight: "700", transition: "all 0.15s", borderRadius: "2px",
+            cursor: canGenerate ? "pointer" : (loading ? "wait" : "not-allowed"),
+            fontWeight: "700", transition: "background 0.15s, color 0.15s", borderRadius: "2px",
             display: "flex", alignItems: "center", justifyContent: "center", gap: "10px",
+            position: "relative",
+            overflow: "hidden",
           }}>
-            <span>🔧</span>
-            {loading ? "BUILDING YOUR SETUP..." : `GENERATE ${targetClass || ""} BUILD`}
+            <span>{loading ? "⚙" : "🔧"}</span>
+            {loading ? "GENERATING BUILD" : `GENERATE ${targetClass || ""} BUILD`}
+            {loading && (
+              <>
+                <span aria-hidden="true" style={{
+                  position: "absolute",
+                  left: 0, right: 0, bottom: "6px",
+                  height: "2px",
+                  background: "#00B4FF",
+                  opacity: 0.3,
+                  animation: "pulse-track 1.8s ease-in-out infinite",
+                }} />
+                <span aria-hidden="true" style={{
+                  position: "absolute",
+                  bottom: "0px",
+                  left: "-40px",
+                  fontSize: "22px",
+                  lineHeight: 1,
+                  animation: "drive 2.4s linear infinite",
+                  filter: "drop-shadow(0 0 6px rgba(0,180,255,0.5))",
+                }}>🏎</span>
+              </>
+            )}
           </button>
 
           {error && <div style={{ padding: "12px 16px", border: "1px solid #3A1A2E", borderLeft: "3px solid #FF5E8C", fontSize: "12px", color: "#FF5E8C", background: "#0D0814" }}>{error}</div>}
@@ -1519,6 +1542,14 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
 
       <style>{`@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap');
         @keyframes fadeIn { from { opacity: 0; transform: translateY(4px) } to { opacity: 1; transform: translateY(0) } }
+        @keyframes drive {
+          0%   { left: -40px; }
+          100% { left: 100%; }
+        }
+        @keyframes pulse-track {
+          0%, 100% { opacity: 0.25; }
+          50%      { opacity: 0.55; }
+        }
         select option { background: #080F1E; color: #C8DCF0; }
         select:focus { outline: none; border-color: #00B4FF !important; }
         ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: #050B16; } ::-webkit-scrollbar-thumb { background: #152840; }
