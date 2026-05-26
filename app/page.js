@@ -1198,7 +1198,7 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
                     <option value="">{make ? "— Select Model —" : "— Select Brand First —"}</option>
                     {models.map(c => (
                       <option key={`${c.y}|${c.m}`} value={`${c.y}|${c.m}`}>
-                        {c.y} {c.m} — {c.c}{c.pi}
+                        {c.y} {c.m} — {c.c} · {c.pi}
                       </option>
                     ))}
                   </select>
@@ -1351,6 +1351,8 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
                   lineHeight: 1,
                   animation: "drive 2.4s linear infinite",
                   filter: "drop-shadow(0 0 6px rgba(0,180,255,0.5))",
+                  transform: "scaleX(-1)",
+                  display: "inline-block",
                 }}>🏎</span>
               </>
             )}
