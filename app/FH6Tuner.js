@@ -1213,9 +1213,32 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
           <div style={{ fontSize: "13px", letterSpacing: "0.4em", color: "#00B4FF", fontWeight: "700", lineHeight: 1 }}>FORZA HORIZON 6</div>
           <div style={{ fontSize: "18px", fontWeight: "700", color: "#E8F2FF", letterSpacing: "0.08em", marginTop: "2px" }}>BUILD & TUNING AGENT</div>
         </div>
-        <div style={{ marginLeft: "auto", textAlign: "right" }}>
-          <div style={{ fontSize: "12px", color: "#486882", letterSpacing: "0.1em" }}>{Object.keys(FH6_CARS).length} MAKES</div>
-          <div style={{ fontSize: "12px", color: "#486882", letterSpacing: "0.1em" }}>{Object.values(FH6_CARS).reduce((a, b) => a + b.length, 0)} MODELS</div>
+        <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: isMobile ? "10px" : "20px" }}>
+          {!isMobile && (
+            <div style={{ textAlign: "right" }}>
+              <div style={{ fontSize: "12px", color: "#486882", letterSpacing: "0.1em" }}>{Object.keys(FH6_CARS).length} MAKES</div>
+              <div style={{ fontSize: "12px", color: "#486882", letterSpacing: "0.1em" }}>{Object.values(FH6_CARS).reduce((a, b) => a + b.length, 0)} MODELS</div>
+            </div>
+          )}
+          <a
+            href="/builds"
+            style={{
+              display: "inline-block",
+              padding: isMobile ? "8px 10px" : "10px 14px",
+              background: "transparent",
+              border: "1px solid #1A3050",
+              color: "#7AAAC8",
+              fontFamily: FONT,
+              fontSize: isMobile ? "11px" : "12px",
+              fontWeight: "700",
+              letterSpacing: "0.1em",
+              textDecoration: "none",
+              borderRadius: "2px",
+              whiteSpace: "nowrap",
+            }}
+          >
+            BROWSE ALL →
+          </a>
         </div>
       </div>
 

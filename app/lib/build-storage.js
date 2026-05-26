@@ -158,3 +158,51 @@ export async function getRandomBuildId({ styleId = null, targetClass = null } = 
 export async function getBuildCount() {
   return await redis.zcard("builds:all");
 }
+
+// List builds with optional style/class filters, ordered newest first.
+// Returns hydrated objects: [{ id, carName, drivetrain, style, targetClass, hasForzaCode, createdAt }]
+// Limits to 100 entries by default; caller can request fewer.
+export async function listBuilds({ styleId = null, targetClass = null, limit = 100 } = {}) {
+  const safeLimit = Math.max(1, Math.min(100, limit));
+
+  // Pick the right index based on filters
+  const key = (styleId && targetClass)
+    ? `builds:style:${styleId}:class:${targetClass}`
+    : "builds:all";
+
+  // Get IDs newest-first
+  const ids = await redis.zrange(key, 0, safeLimit - 1, { rev: true });
+  if (!ids || ids.length === 0) return [];
+
+  // Hydrate each ID with its metadata.
+  // Use Promise.all to parallelize the lookups.
+  const hydrated = await Promise.all(ids.map(async (id) => {
+    try {
+      const raw = await redis.get(`build:${id}`);
+      if (!raw) return null;
+      const payload = typeof raw === "string" ? JSON.parse(raw) : raw;
+      const inputs = payload.inputs || {};
+      return {
+        id,
+        carName: inputs.carName || "Unknown Car",
+        drivetrain: inputs.drivetrain || "",
+        style: inputs.style || "",
+        targetClass: inputs.targetClass || "",
+        hasForzaCode: Boolean(payload.forzaCode),
+        createdAt: payload.createdAt || 0,
+      };
+    } catch {
+      return null;
+    }
+  }));
+
+  // Filter out any that failed to hydrate (deleted builds in the index, etc.)
+  // If we filter by style/class but the index used was builds:all, apply post-filter.
+  let results = hydrated.filter(Boolean);
+
+  // Defense-in-depth: when filtering, also filter the results in case index is stale.
+  if (styleId) results = results.filter((b) => b.style === styleId);
+  if (targetClass) results = results.filter((b) => b.targetClass === targetClass);
+
+  return results;
+}

@@ -31,20 +31,37 @@ export default function BuildNotFound() {
         <p style={{ fontSize: "15px", color: "#88A8C0", margin: "0 0 28px 0", lineHeight: 1.6 }}>
           The build you are looking for does not exist or the link is wrong. Want to create your own build instead?
         </p>
-        <Link href="/" style={{
-          display: "inline-block",
-          padding: "14px 28px",
-          background: "#00B4FF",
-          color: "#050B16",
-          fontSize: "14px",
-          fontWeight: "700",
-          letterSpacing: "0.15em",
-          textDecoration: "none",
-          borderRadius: "2px",
-          textTransform: "uppercase",
-        }}>
-          Create Your Own Build →
-        </Link>
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          <Link href="/" style={{
+            display: "inline-block",
+            padding: "14px 28px",
+            background: "#00B4FF",
+            color: "#050B16",
+            fontSize: "14px",
+            fontWeight: "700",
+            letterSpacing: "0.15em",
+            textDecoration: "none",
+            borderRadius: "2px",
+            textTransform: "uppercase",
+          }}>
+            Create Your Own Build →
+          </Link>
+          <Link href="/builds" style={{
+            display: "inline-block",
+            padding: "12px 24px",
+            background: "transparent",
+            border: "1px solid #1A3050",
+            color: "#7AAAC8",
+            fontSize: "13px",
+            fontWeight: "700",
+            letterSpacing: "0.15em",
+            textDecoration: "none",
+            borderRadius: "2px",
+            textTransform: "uppercase",
+          }}>
+            Browse All Builds →
+          </Link>
+        </div>
       </div>
     </div>
   );
