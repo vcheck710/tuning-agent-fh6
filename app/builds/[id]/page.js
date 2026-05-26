@@ -62,6 +62,7 @@ export default async function BuildPage({ params }) {
       initialBuildId={id}
       initialBuild={data.build}
       initialInputs={data.inputs}
+      initialForzaCode={data.forzaCode || null}
     />
   );
 }

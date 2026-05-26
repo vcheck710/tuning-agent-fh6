@@ -81,3 +81,27 @@ export async function loadBuild(id) {
   }
   return raw;
 }
+
+// Update the Forza share code on an existing build. Returns true on success, false if build not found.
+export async function updateForzaCode(id, forzaCode) {
+  if (!id || typeof id !== "string") return false;
+  if (!/^[a-zA-Z0-9-]+$/.test(id)) return false;
+  if (id.length > 50) return false;
+
+  const raw = await redis.get(`build:${id}`);
+  if (!raw) return false;
+
+  let payload;
+  if (typeof raw === "string") {
+    try { payload = JSON.parse(raw); } catch { return false; }
+  } else {
+    payload = raw;
+  }
+
+  // forzaCode can be null/empty (clearing) or a validated string
+  payload.forzaCode = forzaCode || null;
+  payload.forzaCodeUpdatedAt = Date.now();
+
+  await redis.set(`build:${id}`, JSON.stringify(payload));
+  return true;
+}

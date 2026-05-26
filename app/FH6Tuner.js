@@ -947,7 +947,7 @@ const CARD = {
   borderTop: "2px solid #00B4FF", padding: "20px 24px", borderRadius: "2px",
 };
 
-export default function FH6Tuner({ initialBuild = null, initialInputs = null, initialBuildId = null } = {}) {
+export default function FH6Tuner({ initialBuild = null, initialInputs = null, initialBuildId = null, initialForzaCode = null } = {}) {
   const isMobile = useIsMobile();
   // When viewing a shared build (initialBuild provided), skip the password gate entirely.
   // Otherwise initialize from localStorage as before.
@@ -985,6 +985,12 @@ export default function FH6Tuner({ initialBuild = null, initialInputs = null, in
   const [view, setView] = useState("upgrades");
   const [buildId, setBuildId] = useState(initialBuildId || null);
   const [copyStatus, setCopyStatus] = useState("idle"); // idle | copied
+  const [forzaCode, setForzaCode] = useState(initialForzaCode || null);
+  const [forzaCodeInput, setForzaCodeInput] = useState("");
+  const [forzaCodeEditing, setForzaCodeEditing] = useState(false);
+  const [forzaCodeError, setForzaCodeError] = useState("");
+  const [forzaCodeSaving, setForzaCodeSaving] = useState(false);
+  const [forzaCodeCopyStatus, setForzaCodeCopyStatus] = useState("idle");
 
   const models = useMemo(() => make ? (FH6_CARS[make] || []) : [], [make]);
   const selectedCar = useMemo(() => {
@@ -1486,6 +1492,124 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
               </div>
             )}
 
+            {/* Forza tune code — only relevant when there's a saved build to attach to */}
+            {buildId && (
+              <div style={{ padding: "12px 14px", background: "#071220", border: "1px solid #1A3050", borderLeft: "3px solid #00FF88" }}>
+                <div style={{ fontSize: "13px", color: "#00FF88", fontWeight: "700", letterSpacing: "0.15em", marginBottom: "8px" }}>🎮 FORZA TUNE CODE</div>
+
+                {/* Display existing code */}
+                {forzaCode && !forzaCodeEditing && (
+                  <>
+                    <div style={{ fontSize: "12px", color: "#7AAAC8", marginBottom: "8px", lineHeight: 1.4 }}>
+                      Paste this in-game to load the tune instantly:
+                    </div>
+                    <div style={{ display: "flex", gap: "6px", alignItems: "center", marginBottom: "8px" }}>
+                      <div style={{ flex: 1, padding: "8px 10px", background: "#050B16", border: "1px solid #1A3050", fontFamily: "monospace", fontSize: "14px", color: "#E8F2FF", fontWeight: "700", letterSpacing: "0.05em", textAlign: "center" }}>
+                        {forzaCode}
+                      </div>
+                      <button
+                        onClick={async () => {
+                          try {
+                            await navigator.clipboard.writeText(forzaCode);
+                            setForzaCodeCopyStatus("copied");
+                            setTimeout(() => setForzaCodeCopyStatus("idle"), 2000);
+                          } catch {
+                            const ta = document.createElement("textarea");
+                            ta.value = forzaCode;
+                            document.body.appendChild(ta);
+                            ta.select();
+                            try { document.execCommand("copy"); setForzaCodeCopyStatus("copied"); setTimeout(() => setForzaCodeCopyStatus("idle"), 2000); } catch {}
+                            document.body.removeChild(ta);
+                          }
+                        }}
+                        style={{ padding: "8px 12px", background: forzaCodeCopyStatus === "copied" ? "#00FF88" : "transparent", border: "1px solid #00FF88", color: forzaCodeCopyStatus === "copied" ? "#050B16" : "#00FF88", fontFamily: FONT, fontSize: "12px", fontWeight: "700", letterSpacing: "0.1em", cursor: "pointer", borderRadius: "2px" }}
+                      >
+                        {forzaCodeCopyStatus === "copied" ? "✓" : "COPY"}
+                      </button>
+                    </div>
+                    <button
+                      onClick={() => { setForzaCodeInput(forzaCode || ""); setForzaCodeEditing(true); setForzaCodeError(""); }}
+                      style={{ background: "transparent", border: "none", color: "#486882", fontFamily: FONT, fontSize: "12px", letterSpacing: "0.1em", cursor: "pointer", padding: 0 }}
+                    >
+                      EDIT
+                    </button>
+                  </>
+                )}
+
+                {/* No code yet, not editing — show subtle prompt */}
+                {!forzaCode && !forzaCodeEditing && (
+                  <>
+                    <div style={{ fontSize: "12px", color: "#7AAAC8", marginBottom: "8px", lineHeight: 1.4 }}>
+                      No Forza code yet
+                    </div>
+                    <button
+                      onClick={() => { setForzaCodeInput(""); setForzaCodeEditing(true); setForzaCodeError(""); }}
+                      style={{ width: "100%", padding: "8px", background: "transparent", border: "1px solid #00FF8855", color: "#00FF88", fontFamily: FONT, fontSize: "12px", fontWeight: "700", letterSpacing: "0.15em", cursor: "pointer", borderRadius: "2px" }}
+                    >
+                      + ADD CODE
+                    </button>
+                  </>
+                )}
+
+                {/* Editing mode — show input and save/cancel */}
+                {forzaCodeEditing && (
+                  <>
+                    <div style={{ fontSize: "12px", color: "#7AAAC8", marginBottom: "8px", lineHeight: 1.4 }}>
+                      Built this in Forza? Paste the share code:
+                    </div>
+                    <input
+                      type="text"
+                      value={forzaCodeInput}
+                      onChange={(e) => setForzaCodeInput(e.target.value)}
+                      placeholder="123 456 789"
+                      style={{ width: "100%", padding: "8px 10px", background: "#050B16", border: "1px solid #1A3050", color: "#E8F2FF", fontFamily: "monospace", fontSize: "13px", marginBottom: "8px", outline: "none", borderRadius: "2px" }}
+                      autoFocus
+                    />
+                    {forzaCodeError && (
+                      <div style={{ fontSize: "12px", color: "#FF5E8C", marginBottom: "8px" }}>{forzaCodeError}</div>
+                    )}
+                    <div style={{ display: "flex", gap: "6px" }}>
+                      <button
+                        disabled={forzaCodeSaving}
+                        onClick={async () => {
+                          setForzaCodeSaving(true);
+                          setForzaCodeError("");
+                          try {
+                            const res = await fetch("/api/update-forza-code", {
+                              method: "POST",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({ id: buildId, forzaCode: forzaCodeInput }),
+                            });
+                            const data = await res.json();
+                            if (!res.ok) {
+                              setForzaCodeError(data?.error || "Could not save code");
+                              return;
+                            }
+                            setForzaCode(data.forzaCode);
+                            setForzaCodeEditing(false);
+                          } catch (err) {
+                            setForzaCodeError("Network error. Try again.");
+                          } finally {
+                            setForzaCodeSaving(false);
+                          }
+                        }}
+                        style={{ flex: 1, padding: "8px", background: "#00FF88", border: "none", color: "#050B16", fontFamily: FONT, fontSize: "12px", fontWeight: "700", letterSpacing: "0.1em", cursor: forzaCodeSaving ? "wait" : "pointer", borderRadius: "2px", opacity: forzaCodeSaving ? 0.6 : 1 }}
+                      >
+                        {forzaCodeSaving ? "SAVING..." : "SAVE"}
+                      </button>
+                      <button
+                        disabled={forzaCodeSaving}
+                        onClick={() => { setForzaCodeEditing(false); setForzaCodeError(""); }}
+                        style={{ padding: "8px 12px", background: "transparent", border: "1px solid #152840", color: "#486882", fontFamily: FONT, fontSize: "12px", fontWeight: "700", letterSpacing: "0.1em", cursor: "pointer", borderRadius: "2px" }}
+                      >
+                        CANCEL
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+
             {build.engine_swap_note && (
               <div style={{ padding: "12px 14px", background: "#071220", border: "1px solid #1A2A1A", borderLeft: "3px solid #FFD200", fontSize: "13px", color: "#88A8C0", lineHeight: 1.6 }}>
                 <div style={{ fontSize: "13px", color: "#FFD200", fontWeight: "700", letterSpacing: "0.15em", marginBottom: "6px" }}>⚡ ENGINE SWAP</div>
@@ -1503,6 +1627,11 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
               setActiveTune(null);
               setBuildId(null);
               setCopyStatus("idle");
+              setForzaCode(null);
+              setForzaCodeInput("");
+              setForzaCodeEditing(false);
+              setForzaCodeError("");
+              setForzaCodeCopyStatus("idle");
               // If user came in via a shared link and has no password, show the gate
               if (typeof window !== "undefined") {
                 const stored = localStorage.getItem("fh6_pw");
