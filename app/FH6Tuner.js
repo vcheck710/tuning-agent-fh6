@@ -1208,11 +1208,13 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
 
       {/* Header */}
       <div style={{ background: "linear-gradient(135deg,#04091A 0%,#071228 60%,#0A0E24 100%)", borderBottom: "2px solid #00B4FF", padding: isMobile ? "12px 14px" : "16px 32px", display: "flex", alignItems: "center", gap: isMobile ? "10px" : "16px" }}>
-        <div style={{ width: "40px", height: "40px", background: "linear-gradient(135deg,#00B4FF22,#00B4FF44)", border: "1px solid #00B4FF55", borderRadius: "2px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "20px" }}>🏎</div>
-        <div>
-          <div style={{ fontSize: "13px", letterSpacing: "0.4em", color: "#00B4FF", fontWeight: "700", lineHeight: 1 }}>FORZA HORIZON 6</div>
-          <div style={{ fontSize: "18px", fontWeight: "700", color: "#E8F2FF", letterSpacing: "0.08em", marginTop: "2px" }}>BUILD & TUNING AGENT</div>
-        </div>
+        <a href="/" style={{ display: "flex", alignItems: "center", gap: isMobile ? "10px" : "16px", textDecoration: "none", color: "inherit" }}>
+          <div style={{ width: "40px", height: "40px", background: "linear-gradient(135deg,#00B4FF22,#00B4FF44)", border: "1px solid #00B4FF55", borderRadius: "2px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "20px" }}>🏎</div>
+          <div>
+            <div style={{ fontSize: "13px", letterSpacing: "0.4em", color: "#00B4FF", fontWeight: "700", lineHeight: 1 }}>FORZA HORIZON 6</div>
+            <div style={{ fontSize: "18px", fontWeight: "700", color: "#E8F2FF", letterSpacing: "0.08em", marginTop: "2px" }}>BUILD & TUNING AGENT</div>
+          </div>
+        </a>
         <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: isMobile ? "10px" : "20px" }}>
           {!isMobile && (
             <div style={{ textAlign: "right" }}>

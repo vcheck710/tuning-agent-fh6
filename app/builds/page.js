@@ -116,13 +116,13 @@ export default function BrowseBuilds() {
     <div style={{ minHeight: "100vh", background: "linear-gradient(180deg, #050B16 0%, #080F1E 100%)", color: "#E8F2FF", fontFamily: FONT }}>
       {/* Header */}
       <div style={{ background: "linear-gradient(135deg,#04091A 0%,#071228 60%,#0A0E24 100%)", borderBottom: "2px solid #00B4FF", padding: isMobile ? "12px 14px" : "16px 32px", display: "flex", alignItems: "center", gap: isMobile ? "10px" : "16px" }}>
-        <Link href="/" style={{ width: "40px", height: "40px", background: "linear-gradient(135deg,#00B4FF22,#00B4FF44)", border: "1px solid #00B4FF55", borderRadius: "2px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "20px", textDecoration: "none" }}>
-          🏎
+        <Link href="/" style={{ display: "flex", alignItems: "center", gap: isMobile ? "10px" : "16px", textDecoration: "none", color: "inherit" }}>
+          <div style={{ width: "40px", height: "40px", background: "linear-gradient(135deg,#00B4FF22,#00B4FF44)", border: "1px solid #00B4FF55", borderRadius: "2px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "20px" }}>🏎</div>
+          <div>
+            <div style={{ fontSize: "13px", color: "#00B4FF", letterSpacing: "0.2em", fontWeight: "700" }}>FORZA HORIZON 6</div>
+            <div style={{ fontSize: "20px", fontWeight: "700", color: "#E8F2FF", letterSpacing: "0.1em" }}>BROWSE ALL BUILDS</div>
+          </div>
         </Link>
-        <div>
-          <div style={{ fontSize: "13px", color: "#00B4FF", letterSpacing: "0.2em", fontWeight: "700" }}>FORZA HORIZON 6</div>
-          <div style={{ fontSize: "20px", fontWeight: "700", color: "#E8F2FF", letterSpacing: "0.1em" }}>BROWSE ALL BUILDS</div>
-        </div>
         <div style={{ marginLeft: "auto" }}>
           <Link href="/" style={{ display: "inline-block", padding: "10px 16px", background: "transparent", border: "1px solid #152840", color: "#7AAAC8", fontFamily: FONT, fontSize: "13px", fontWeight: "700", letterSpacing: "0.15em", textDecoration: "none", borderRadius: "2px" }}>
             ← BACK
