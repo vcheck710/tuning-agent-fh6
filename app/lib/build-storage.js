@@ -30,10 +30,31 @@ export function generateBuildId(styleId, targetClass) {
   return `${stylePart}${classPart}-${randomSuffix()}`;
 }
 
+// Compute the per-style+class index key for a build.
+// Used to fetch random/recent builds matching specific filters later.
+function styleClassIndexKey(styleId, targetClass) {
+  // Use lowercase style for consistency, raw class string (D/C/B/A/S1/S2/R)
+  return `builds:style:${styleId || "unknown"}:class:${targetClass || "X"}`;
+}
+
+// Add a build ID to all relevant indexes. Timestamps as scores enable
+// recency sorting and random sampling later.
+async function addToIndexes(id, styleId, targetClass, timestamp) {
+  // ALL builds index — newest first when read in reverse
+  await redis.zadd("builds:all", { score: timestamp, member: id });
+
+  // Per-style+class index for filtered random/recent queries
+  if (styleId && targetClass) {
+    const key = styleClassIndexKey(styleId, targetClass);
+    await redis.zadd(key, { score: timestamp, member: id });
+  }
+}
+
 // Save a build to Redis with collision retry. Returns the final ID used.
 export async function saveBuild({ buildData, inputs }) {
   const styleId = inputs.style;
   const targetClass = inputs.targetClass;
+  const timestamp = Date.now();
 
   // Retry up to 5 times to find a non-colliding ID.
   for (let attempt = 0; attempt < 5; attempt++) {
@@ -43,9 +64,10 @@ export async function saveBuild({ buildData, inputs }) {
       const payload = {
         build: buildData,
         inputs,
-        createdAt: Date.now(),
+        createdAt: timestamp,
       };
       await redis.set(`build:${id}`, JSON.stringify(payload));
+      await addToIndexes(id, styleId, targetClass, timestamp);
       return id;
     }
   }
@@ -55,9 +77,10 @@ export async function saveBuild({ buildData, inputs }) {
   const payload = {
     build: buildData,
     inputs,
-    createdAt: Date.now(),
+    createdAt: timestamp,
   };
   await redis.set(`build:${fallbackId}`, JSON.stringify(payload));
+  await addToIndexes(fallbackId, styleId, targetClass, timestamp);
   return fallbackId;
 }
 
@@ -104,4 +127,34 @@ export async function updateForzaCode(id, forzaCode) {
 
   await redis.set(`build:${id}`, JSON.stringify(payload));
   return true;
+}
+
+// === Query helpers (foundation for future random/discovery features) ===
+
+// Get the most recent N build IDs across the whole dataset.
+// Returns array of IDs sorted newest-first.
+export async function getRecentBuildIds(limit = 20) {
+  const safeLimit = Math.max(1, Math.min(100, limit));
+  // ZREVRANGE = highest score first = newest first
+  return await redis.zrange("builds:all", 0, safeLimit - 1, { rev: true });
+}
+
+// Get a single random build ID, optionally filtered by style+class.
+// Returns null if no builds match.
+export async function getRandomBuildId({ styleId = null, targetClass = null } = {}) {
+  const key = (styleId && targetClass)
+    ? styleClassIndexKey(styleId, targetClass)
+    : "builds:all";
+
+  const count = await redis.zcard(key);
+  if (!count || count === 0) return null;
+
+  const randomIndex = Math.floor(Math.random() * count);
+  const results = await redis.zrange(key, randomIndex, randomIndex);
+  return results && results.length > 0 ? results[0] : null;
+}
+
+// Get total build count (useful for stats / "X builds in cache" display).
+export async function getBuildCount() {
+  return await redis.zcard("builds:all");
 }
