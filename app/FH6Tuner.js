@@ -1198,6 +1198,19 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
           >
             Continue
           </button>
+
+          {/* Secondary path for visitors without a password: browse what's already been built */}
+          <div style={{ marginTop: 20, paddingTop: 18, borderTop: "1px solid #152840", textAlign: "center" }}>
+            <div style={{ fontSize: 12, color: "#6890B0", marginBottom: 8, lineHeight: 1.5 }}>
+              Don't have a password? You can still browse builds others have created.
+            </div>
+            <a
+              href="/builds"
+              style={{ fontSize: 13, color: "#00B4FF", fontWeight: 700, letterSpacing: "0.1em", textDecoration: "none" }}
+            >
+              BROWSE ALL BUILDS →
+            </a>
+          </div>
         </div>
       </div>
     );
