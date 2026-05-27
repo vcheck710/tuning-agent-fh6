@@ -1457,29 +1457,29 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
 
           <div style={{ padding: isMobile ? "14px 12px" : "20px", borderRight: isMobile ? "none" : "1px solid #0E1E32", borderBottom: isMobile ? "1px solid #0E1E32" : "none", background: "#080F1E", display: "flex", flexDirection: "column", gap: isMobile ? "10px" : "12px", position: isMobile ? "static" : "sticky", top: 0, maxHeight: isMobile ? "none" : "calc(100vh - 74px)", alignSelf: "start", overflowY: isMobile ? "visible" : "auto" }}>
 
+            {/* Combined Vehicle + PI Trajectory card */}
             <div style={{ padding: "14px", background: "#050B16", border: "1px solid #0E1E32", borderLeft: "3px solid #FF5E8C" }}>
               <div style={{ fontSize: "13px", color: "#486882", letterSpacing: "0.1em", marginBottom: "4px" }}>VEHICLE</div>
               <div style={{ fontSize: "15px", fontWeight: "700", color: "#E8F2FF", lineHeight: 1.2 }}>{make}</div>
               <div style={{ fontSize: "15px", color: "#7AAAC8", marginTop: "2px" }}>{selectedCar?.y} {selectedCar?.m}</div>
-            </div>
 
-            {/* PI tracker */}
-            {selectedCar && (
-              <div style={{ padding: "12px 14px", background: "#050B16", border: "1px solid #0E1E32" }}>
-                <div style={{ fontSize: "13px", color: "#486882", letterSpacing: "0.15em", marginBottom: "8px" }}>PI TRAJECTORY</div>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "6px" }}>
-                  <div style={{ textAlign: "center", flex: 1 }}>
-                    <div style={{ fontSize: "13px", color: "#486882" }}>STOCK</div>
-                    <div style={{ marginTop: "2px" }}><ClassBadge cls={selectedCar.c} pi={selectedCar.pi} /></div>
+              {selectedCar && (
+                <>
+                  <div style={{ height: "1px", background: "#0E1E32", margin: "12px 0 10px" }} />
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "6px" }}>
+                    <div style={{ textAlign: "center", flex: 1 }}>
+                      <div style={{ fontSize: "11px", color: "#486882", letterSpacing: "0.15em", marginBottom: "4px" }}>STOCK</div>
+                      <ClassBadge cls={selectedCar.c} pi={selectedCar.pi} />
+                    </div>
+                    <div style={{ color: "#00B4FF", fontSize: "14px" }}>→</div>
+                    <div style={{ textAlign: "center", flex: 1 }}>
+                      <div style={{ fontSize: "11px", color: "#486882", letterSpacing: "0.15em", marginBottom: "4px" }}>TARGET</div>
+                      <ClassBadge cls={targetClass} pi={build.estimated_pi || CLASS_PI_TOP[targetClass] - 3} />
+                    </div>
                   </div>
-                  <div style={{ color: "#00B4FF", fontSize: "14px" }}>→</div>
-                  <div style={{ textAlign: "center", flex: 1 }}>
-                    <div style={{ fontSize: "13px", color: "#486882" }}>TARGET</div>
-                    <div style={{ marginTop: "2px" }}><ClassBadge cls={targetClass} pi={build.estimated_pi || CLASS_PI_TOP[targetClass] - 3} /></div>
-                  </div>
-                </div>
-              </div>
-            )}
+                </>
+              )}
+            </div>
 
             <div style={{ padding: "12px 14px", background: "#050B16", border: "1px solid #0E1E32" }}>
               {[["DRIVETRAIN", drivetrain], ["STYLE", selectedStyle?.label], ["TRACK", track]].map(([k, v]) => (
