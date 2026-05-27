@@ -1414,7 +1414,7 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
                   ))}
                 </div>
                 <div style={{ fontSize: "12px", color: "#486882", marginTop: "6px", fontStyle: "italic" }}>
-                  {drivetrain === "AUTO" ? "AI will pick the best drivetrain for your style and track." : "Override active. The build will use your selected drivetrain."}
+                  {drivetrain === "AUTO" ? "The Tuner will pick the best drivetrain for your style and track." : "Override active. The build will use your selected drivetrain."}
                 </div>
               </div>
             </div>
