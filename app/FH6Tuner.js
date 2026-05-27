@@ -1125,7 +1125,23 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
     const sec = sections.find(s => s.key === activeKey);
     const data = dataRoot?.[activeKey];
     if (!sec || !data) return null;
-    const validFields = sec.fields.filter(f => data[f.key] !== null && data[f.key] !== undefined && data[f.key] !== "");
+
+    // Legacy fallback for builds saved before track widths moved from `platform` to `tires_rims`.
+    // For new builds the value is at data[fieldKey]. For old builds, the value may live at
+    // dataRoot.platform.front_track_width / rear_track_width — fall through to that when missing.
+    const getFieldValue = (fieldKey) => {
+      const primary = data[fieldKey];
+      if (primary !== null && primary !== undefined && primary !== "") return primary;
+      if (activeKey === "tires_rims" && (fieldKey === "front_track_width" || fieldKey === "rear_track_width")) {
+        return dataRoot?.platform?.[fieldKey];
+      }
+      return primary;
+    };
+
+    const validFields = sec.fields.filter(f => {
+      const v = getFieldValue(f.key);
+      return v !== null && v !== undefined && v !== "";
+    });
     return (
       <div style={{ border: "1px solid #152840", background: "#080F1E", animation: "fadeIn 0.15s ease", marginBottom: "20px" }}>
         <div style={{ padding: "12px 16px", borderBottom: "1px solid #0E1E32", fontSize: "12px", letterSpacing: "0.2em", color: "#00B4FF", fontWeight: "700", display: "flex", alignItems: "center", gap: "8px" }}>
@@ -1133,7 +1149,7 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
         </div>
         <div>
           {validFields.map((field, i) => {
-            const val = data[field.key];
+            const val = getFieldValue(field.key);
             const isNote = field.key === "note";
             // Treat numeric strings ("35") the same as numbers (35).
             // The AI sometimes returns values as strings even when the schema asks for numbers,
