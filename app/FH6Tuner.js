@@ -818,7 +818,7 @@ const DRIVING_STYLES = [
 ];
 
 const TRACK_TYPES = ["Circuit (Road)", "Oval / High-Speed", "Mixed Surface / Street", "Drag Strip", "Off-road / Dirt", "Hill Climb"];
-const DRIVETRAINS = ["RWD", "FWD", "AWD"];
+const DRIVETRAINS = ["AUTO", "RWD", "FWD", "AWD"];
 
 
 // ─── Upgrade Sections ───────────────────────────────
@@ -973,7 +973,7 @@ export default function FH6Tuner({ initialBuild = null, initialInputs = null, in
 
   const [make, setMake] = useState(initialInputs?.make || "");
   const [carKey, setCarKey] = useState(initialInputs ? `${initialInputs.carYear}|${initialInputs.carModel}` : ""); // "year|model"
-  const [drivetrain, setDrivetrain] = useState(initialInputs?.drivetrain || "RWD");
+  const [drivetrain, setDrivetrain] = useState(initialInputs?.drivetrain || "AUTO");
   const [style, setStyle] = useState(initialInputs?.style || "balanced");
   const [track, setTrack] = useState(initialInputs?.track || "Circuit (Road)");
   const [targetClass, setTargetClass] = useState(initialInputs?.targetClass || "");
@@ -1065,6 +1065,12 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
         setError(data?.error || `Request failed: ${res.status}`);
         return;
       }
+      // If user chose AUTO, replace the local drivetrain state with the AI's pick
+      // so the sidebar and downstream displays show the resolved value.
+      if (drivetrain === "AUTO") {
+        const aiChoice = data?.build?.chosen_drivetrain || "RWD";
+        setDrivetrain(aiChoice);
+      }
       setBuild(data.build);
       setActiveUpgrade("engine");
       setView("upgrades");
@@ -1080,7 +1086,9 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
           carName: `${car?.y} ${make} ${car?.m}`,
           stockPi: car?.pi,
           stockClass: car?.c,
-          drivetrain,
+          drivetrain: drivetrain === "AUTO"
+            ? (data?.build?.chosen_drivetrain || "RWD")
+            : drivetrain,
           style,
           track,
           targetClass,
@@ -1404,6 +1412,9 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
                       cursor: "pointer", fontWeight: "700", transition: "all 0.12s", borderRadius: "2px",
                     }}>{d}</button>
                   ))}
+                </div>
+                <div style={{ fontSize: "12px", color: "#486882", marginTop: "6px", fontStyle: "italic" }}>
+                  {drivetrain === "AUTO" ? "AI will pick the best drivetrain for your style and track." : "Override active. The build will use your selected drivetrain."}
                 </div>
               </div>
             </div>
