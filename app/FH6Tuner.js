@@ -900,10 +900,10 @@ const TUNE_SECTIONS = [
     { key: "rear", label: "Rear" },
   ]},
   { key: "springs", label: "Springs", icon: "⋀", fields: [
-    { key: "front_rate_pct", label: "Front Rate", unit: "% of slider range" },
-    { key: "rear_rate_pct", label: "Rear Rate", unit: "% of slider range" },
-    { key: "front_ride_height_pct", label: "Front Height", unit: "% of slider range" },
-    { key: "rear_ride_height_pct", label: "Rear Height", unit: "% of slider range" },
+    { key: "front_rate_pct", label: "Front Rate", unit: "%" },
+    { key: "rear_rate_pct", label: "Rear Rate", unit: "%" },
+    { key: "front_ride_height_pct", label: "Front Height", unit: "%" },
+    { key: "rear_ride_height_pct", label: "Rear Height", unit: "%" },
   ]},
   { key: "damping", label: "Damping", icon: "〜", fields: [
     { key: "front_rebound", label: "Front Rebound" },
@@ -912,8 +912,8 @@ const TUNE_SECTIONS = [
     { key: "rear_bump", label: "Rear Bump" },
   ]},
   { key: "aero", label: "Aero", icon: "⇑", fields: [
-    { key: "front_downforce_pct", label: "Front Downforce", unit: "% of slider range" },
-    { key: "rear_downforce_pct", label: "Rear Downforce", unit: "% of slider range" },
+    { key: "front_downforce_pct", label: "Front Downforce", unit: "%" },
+    { key: "rear_downforce_pct", label: "Rear Downforce", unit: "%" },
     { key: "note", label: "Note" },
   ]},
   { key: "brakes", label: "Brakes", icon: "⬡", fields: [
