@@ -1126,8 +1126,13 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
         <div>
           {validFields.map((field, i) => {
             const val = data[field.key];
-            const isText = typeof val !== "number";
             const isNote = field.key === "note";
+            // Treat numeric strings ("35") the same as numbers (35).
+            // The AI sometimes returns values as strings even when the schema asks for numbers,
+            // and we don't want the unit suffix or formatting to break in that case.
+            const numericVal = typeof val === "number" ? val : Number(val);
+            const isNumeric = !isNote && val !== "" && val !== null && val !== undefined && Number.isFinite(numericVal);
+            const isText = !isNumeric;
             return (
               <div key={field.key} style={{
                 display: "flex", justifyContent: "space-between",
@@ -1143,7 +1148,7 @@ Generate a complete FH6 build hitting the target PI class. Lean on the car's sta
                   textAlign: "right", maxWidth: isNote ? "70%" : "auto",
                   fontStyle: isNote ? "italic" : "normal",
                 }}>
-                  {val}{field.unit && typeof val === "number" ? ` ${field.unit}` : ""}
+                  {isNumeric ? numericVal : val}{field.unit && isNumeric ? ` ${field.unit}` : ""}
                 </span>
               </div>
             );
