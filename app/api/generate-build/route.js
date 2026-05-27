@@ -56,6 +56,7 @@ UPGRADE TIERS (use these exact strings):
 - Aero: "Stock" or "Race"
 
 ENGINE SWAP DATABASE (FH6 swap engines). Format: Name | Stock HP / Max HP | Notes
+NOTE ON UNVERIFIED ENGINES: A small set of engines below are marked "(unverified)" with "/?" in place of max HP. These are web-sourced; their FH6 availability and tuned ceiling are not screenshot-verified. When recommending one, ALWAYS append a caveat like "(if available for this car — max tuned HP unverified, try in-game)". Prefer verified engines when both options would work.
 MOTORCYCLE ENGINES (Kei cars and subcompacts only — e.g. Honda Beat. Not available on full-size cars):
 1.0L I4 Motorbike | 215/794 | Honda CBR1000RR-R Fireblade, +Single Turbo
 1.1L V4 Motorbike | 214/775 | Aprilia RSV4, +Single Turbo
@@ -144,6 +145,42 @@ Racing 7.2L V8 | 850/1356 | Top-tier asphalt/offroad, +Twin Turbos
 7.7L V12 | 800/1307
 8.4L V10 | 640/1127 | +Twin Turbos
 8.9L V8 DSC | 1500/1500 | No headroom, race-locked
+
+UNVERIFIED (web-sourced, FH6 in-game availability and max HP not confirmed by screenshots — caveat all recommendations):
+4-cylinder additions:
+1.8L I4 Turbo (Peugeot) | 200/? | Peugeot 205 T16, Turbo — unverified
+2.0L I4 Turbo (Cosworth) | 224/? | Ford Escort RS Cosworth, Turbo — unverified
+2.0L I4 Turbo (4G63) | 280/? | Mitsubishi Lancer Evo VI 4G63, Turbo — rally/drift favorite, unverified
+2.0L Turbo VVT (FK8) | 306/? | Honda Civic Type R FK8 K20C1, Turbo — unverified
+2.1L I4 Turbo (RS200) | 506/? | Ford RS200 Evolution, Turbo — unverified
+
+6-cylinder additions:
+1.8L I6 (Golf 83) | 112/? | VW Golf '83, NA — low-power vintage, unverified
+2.7L F6 (Carrera RS) | 207/? | Porsche 911 Carrera RS, NA — unverified
+2.8L V6 VR6 (GTI) | 172/? | VW GTI VR6, NA — unverified
+2.8L V6 VR6 (Corrado) | 178/? | VW Corrado VR6, NA — unverified
+3.3L F6 Turbo (911 Turbo 82) | 296/? | Porsche 911 Turbo '82, Turbo — unverified
+3.5L V6 TT (XJ220) | 542/? | Jaguar XJ220, Twin Turbo — unverified
+3.5L V6 TT (Ford GT 17) | 630/? | Ford GT '17, Twin Turbo — unverified
+Racing V6 TT (Hoonitruck) | 914/? | Ford Hoonitruck, Twin Turbo — gymkhana specialist, unverified
+12.8L I6 Turbo Diesel | 2400/? | Volvo Iron Knight, Turbo Diesel — extreme drag/diesel, ~4425 lb-ft torque, unverified
+
+V8 additions:
+3.5L V8 NA (F355) | 375/? | Ferrari F355, NA — unverified
+3.9L V8 TT (488) | 660/? | Ferrari 488 GTB, Twin Turbo — unverified
+5.0L V8 (AJ-V8) | 550/? | Jaguar AJ-V8, NA — unverified
+5.1L V8 TT (One:1) | 1341/? | Koenigsegg One:1, Twin Turbo — top-tier hypercar swap, unverified
+5.5L V8 TT (E63 AMG) | 577/? | Mercedes E63 AMG '13, Twin Turbo — unverified
+7.0L V8 (GT40) | 485/? | Ford GT40, NA — unverified
+7.0L V8 LS7 (Z/28) | 505/? | Chevrolet Camaro Z/28 '15 LS7, NA — unverified
+
+V10/V12/W16/Rotary additions:
+3.0L V12 Vintage (W154) | 483/? | Mercedes-Benz W154, NA — vintage GP, unverified
+5.2L V12 TT (DB11) | 608/? | Aston Martin DB11, Twin Turbo — unverified
+6.9L V12 TT (CLK GTR) | 622/? | Mercedes CLK GTR, Twin Turbo — unverified
+7.0L V12 (Aston) | 820/? | Aston Martin, NA — unverified
+8.0L W16 Quad Turbo (Bugatti) | 1183/? | Bugatti Veyron/Chiron, Quad Turbo — hypercar swap, unverified
+1.3L 2 Rotor TT (13B-REW) | 261/? | Mazda RX-7 FD 13B-REW, Twin Turbo — drift/touge specialist (distinct from RX-8 Renesis NA), unverified
 
 EV MOTOR + BATTERY SWAP (NEW IN FH6):
 FH6 introduces an EV Motor and Battery Swap system that drops high-output electric powertrains into nearly any car (or specialized motorcycle). When recommending for a build, you can suggest "EV swap" as an alternative when:
