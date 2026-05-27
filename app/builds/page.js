@@ -214,11 +214,23 @@ export default function BrowseBuilds() {
                 onMouseEnter={(e) => { e.currentTarget.style.background = "#0A1426"; }}
                 onMouseLeave={(e) => { e.currentTarget.style.background = "#080F1E"; }}
               >
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "8px", marginBottom: "10px" }}>
-                  <div style={{ fontSize: "15px", fontWeight: "700", color: "#E8F2FF", lineHeight: 1.3 }}>{b.carName}</div>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
                   {b.hasForzaCode && (
-                    <span title="Has Forza tune code" style={{ flexShrink: 0, fontSize: "16px" }}>🎮</span>
+                    <span
+                      title="Has Forza tune code"
+                      aria-label="Has Forza tune code"
+                      style={{
+                        flexShrink: 0,
+                        width: "10px",
+                        height: "10px",
+                        borderRadius: "50%",
+                        background: "#00FF88",
+                        boxShadow: "0 0 8px rgba(0, 255, 136, 0.7)",
+                        animation: "pulse-dot 2.2s ease-in-out infinite",
+                      }}
+                    />
                   )}
+                  <div style={{ fontSize: "15px", fontWeight: "700", color: "#E8F2FF", lineHeight: 1.3, flex: 1, minWidth: 0 }}>{b.carName}</div>
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "8px" }}>
                   <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
@@ -239,6 +251,12 @@ export default function BrowseBuilds() {
           </div>
         )}
       </div>
+      <style>{`
+        @keyframes pulse-dot {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.55; transform: scale(0.85); }
+        }
+      `}</style>
     </div>
   );
 }
