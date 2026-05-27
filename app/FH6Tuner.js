@@ -844,8 +844,6 @@ const UPGRADE_SECTIONS = [
     { key: "rear_arb", label: "Rear ARB" },
     { key: "chassis_reinforcement", label: "Chassis Reinforcement" },
     { key: "weight_reduction", label: "Weight Reduction" },
-    { key: "front_track_width", label: "Front Track Width" },
-    { key: "rear_track_width", label: "Rear Track Width" },
     { key: "note", label: "Note" },
   ]},
   { key: "drivetrain", label: "Drivetrain", icon: "⚙", fields: [
@@ -860,6 +858,8 @@ const UPGRADE_SECTIONS = [
     { key: "compound", label: "Compound" },
     { key: "front_width", label: "Front Width" },
     { key: "rear_width", label: "Rear Width" },
+    { key: "front_track_width", label: "Front Track Width" },
+    { key: "rear_track_width", label: "Rear Track Width" },
     { key: "note", label: "Note" },
   ]},
   { key: "aero_body", label: "Aero/Body", icon: "⇑", fields: [
