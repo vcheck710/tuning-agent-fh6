@@ -159,9 +159,24 @@ export default function BrowseBuilds() {
           </div>
         </div>
 
-        {/* Status row */}
-        <div style={{ fontSize: "12px", color: "#486882", letterSpacing: "0.1em", marginBottom: "16px", textTransform: "uppercase" }}>
-          {loading ? "Loading builds..." : `${builds.length} build${builds.length === 1 ? "" : "s"} found`}
+        {/* Status row: count on left, legend on right (only shown when builds visible) */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "10px", marginBottom: "16px" }}>
+          <div style={{ fontSize: "12px", color: "#486882", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+            {loading ? "Loading builds..." : `${builds.length} build${builds.length === 1 ? "" : "s"} found`}
+          </div>
+          {!loading && builds.length > 0 && builds.some((b) => b.hasForzaCode) && (
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "11px", color: "#7AAAC8", letterSpacing: "0.05em" }}>
+              <span style={{
+                width: "8px",
+                height: "8px",
+                borderRadius: "50%",
+                background: "#00FF88",
+                boxShadow: "0 0 6px rgba(0, 255, 136, 0.6)",
+                flexShrink: 0,
+              }} />
+              <span>= Forza tune code available</span>
+            </div>
+          )}
         </div>
 
         {/* Error state */}
